@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "/api", // IMPORTANT
+    baseURL: "https://ivoryrentcar.onrender.com/api",
   headers: { "Content-Type": "application/json" },
 });
 
