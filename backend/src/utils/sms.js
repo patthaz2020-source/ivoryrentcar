@@ -1,20 +1,28 @@
 const twilio = require("twilio");
-const { env } = require("../config/env");
-
-const sid = env.TWILIO_ACCOUNT_SID;
-const token = env.TWILIO_AUTH_TOKEN;
 
 let client = null;
-if (sid && token) {
-  client = twilio(sid, token);
+
+// ✅ Only initialize Twilio if credentials look valid
+if (
+  process.env.TWILIO_ACCOUNT_SID?.startsWith("AC") &&
+  process.env.TWILIO_AUTH_TOKEN &&
+  process.env.TWILIO_FROM
+) {
+  client = twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+  );
+  console.log("✅ Twilio SMS enabled");
+} else {
+  console.log("⚠️ Twilio SMS disabled (credentials missing or invalid)");
 }
 
 exports.sendSms = async (to, body) => {
-  if (!client) return; // allow running without SMS configured
+  if (!client) return; // ✅ silently skip SMS
   if (!to) return;
 
   await client.messages.create({
-    from: env.TWILIO_FROM,
+    from: process.env.TWILIO_FROM,
     to,
     body,
   });
