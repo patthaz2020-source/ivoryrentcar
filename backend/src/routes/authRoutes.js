@@ -1,9 +1,11 @@
-const router = require("express").Router();
+const express = require("express");
 const { body } = require("express-validator");
 const { validate } = require("../middleware/validation");
 const { registerAdmin, login } = require("../controllers/authController");
-const { login } = require("../controllers/authController");
 
+const router = express.Router();
+
+// ✅ Register admin
 router.post(
   "/register-admin",
   [
@@ -15,9 +17,8 @@ router.post(
   ],
   registerAdmin
 );
-router.post("/login", login);
 
-module.exports = router;
+// ✅ Admin login (single route, validated)
 router.post(
   "/login",
   [
