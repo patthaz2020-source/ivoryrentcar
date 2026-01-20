@@ -16,9 +16,9 @@ export default function AdminLogin() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
+  
     try {
-      const res = await api.post("/auth/login", { email, password });
+      const res = await api.post("/api/auth/login", { email, password });
       setAuth(res.data.token, res.data.user);
       navigate("/admin/vehicles");
     } catch (err) {
